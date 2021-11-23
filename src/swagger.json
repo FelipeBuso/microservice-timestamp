@@ -1,0 +1,101 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Microservice timestamp",
+    "description": "Esse microserviço retorna um objeto com a data em timestamp e utc",
+    "contact": {
+      "email": "felipe_buso@hotmail.com",
+      "url": "https://github.com/FelipeBuso"
+    },
+    "version": "1.0.0"
+  },
+  "servers":[
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "paths": {
+    "/api":{
+      "get": {
+        "summary": "Retorna a data atual",
+        "description": "Retorna a data atual em um objeto nos formatos timestamp e utc",
+        "tags": ["Date"],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "200": {
+            "descrition": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/date"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{date}":{
+      "get": {
+        "summary": "Retorna a data enviada",
+        "description": "Retorna a data enviada (YYYY-MM-DD ou timestamp) em um objeto nos formatos timestamp e utc",
+        "tags": ["Date"],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "description": "data enviada para conversão",
+            "required": true
+          }
+       ],
+       "examples": {
+        "date": {
+          "value": "2012-12-12"
+        }
+       },
+        "responses": {
+          "200": {
+            "descrition": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/date"
+                }
+              }
+            }
+          },
+          "400": {
+            "descrition": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "error": {
+                    "type": "object",
+                    "properties": {
+                      "error": {"type": "string"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schema": {
+      "date": {
+        "type": "object",
+        "properties": {
+          "unix": { "type": "number" },
+          "utc": { "type": "string" }
+        }
+      }
+    }
+  }
+}
